@@ -1,0 +1,684 @@
+/* Базовые стили и сброс */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #f0f0f0;
+    background: linear-gradient(135deg, #1a0000 0%, #2a0000 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Плавающие элементы */
+.floating-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.floating-element {
+    position: absolute;
+    color: rgba(178, 34, 34, 0.2);
+    font-size: 1.8rem;
+    animation: float 8s infinite ease-in-out;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.element-1 { top: 15%; left: 8%; animation-delay: 0s; }
+.element-2 { top: 65%; left: 90%; animation-delay: 2s; }
+.element-3 { top: 75%; left: 12%; animation-delay: 4s; }
+.element-4 { top: 35%; left: 88%; animation-delay: 1s; }
+
+/* Анимации */
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0.6;
+    }
+    50% { 
+        transform: translateY(-25px) rotate(15deg) scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% { 
+        transform: scale(1); 
+        opacity: 0.7;
+        text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    }
+    50% { 
+        transform: scale(1.2); 
+        opacity: 1;
+        text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+    }
+    100% { 
+        transform: scale(1); 
+        opacity: 0.7;
+        text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-pop {
+    animation: popIn 1.5s ease-out forwards;
+}
+
+@keyframes popIn {
+    0% { 
+        transform: scale(0.8); 
+        opacity: 0;
+        text-shadow: 0 0 20px rgba(178, 34, 34, 0.5);
+    }
+    100% { 
+        transform: scale(1); 
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(178, 34, 34, 0.8);
+    }
+}
+
+.animate-fadein {
+    animation: fadeIn 2s ease-in forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+/* Стили для главного баннера */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(178, 34, 34, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(178, 34, 34, 0.6);
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1::after {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+    margin: 25px auto;
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+}
+
+.hero-date {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: 4px;
+    color: #fff;
+    font-weight: 300;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    z-index: 2;
+    position: relative;
+}
+
+.decoration {
+    font-size: 3rem;
+    color: #4CAF50;
+    animation: pulse 3s infinite;
+    margin-top: 2.5rem;
+    text-shadow: 0 0 20px rgba(76, 175, 80, 0.7);
+    z-index: 2;
+    position: relative;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 1rem;
+    animation: bounce 2s infinite;
+    z-index: 2;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.scroll-indicator i {
+    display: block;
+    margin-top: 8px;
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { 
+        transform: translateX(-50%) translateY(0);
+    }
+    40% { 
+        transform: translateX(-50%) translateY(-15px);
+    }
+    60% { 
+        transform: translateX(-50%) translateY(-7px);
+    }
+}
+
+/* Стили для секций */
+section {
+    padding: 6rem 0;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 1s ease-out;
+    position: relative;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+    opacity: 0.5;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 4rem;
+    color: #fff;
+    position: relative;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: #4CAF50;
+    margin: 20px auto;
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
+}
+
+/* Стили для блока с деталями */
+
+.details::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 L100,50" stroke="rgba(178,34,34,0.1)" stroke-width="0.5"/><path d="M50,0 L50,100" stroke="rgba(178,34,34,0.1)" stroke-width="0.5"/></svg>');
+    pointer-events: none;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.detail-item {
+    background: linear-gradient(145deg, #2a0000, #200000);
+    padding: 3rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 35px rgba(178, 34, 34, 0.25),
+        0 0 30px rgba(178, 34, 34, 0.1) inset;
+    text-align: center;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(178, 34, 34, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.detail-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.detail-item::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+        transparent, 
+        transparent, 
+        rgba(76, 175, 80, 0.1), 
+        rgba(76, 175, 80, 0.2),
+        rgba(76, 175, 80, 0.1),
+        transparent, 
+        transparent
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.detail-item:hover::before {
+    opacity: 1;
+    animation: shine 1.5s ease-in-out;
+}
+
+@keyframes shine {
+    0% {
+        left: -50%;
+        top: -50%;
+    }
+    100% {
+        left: 150%;
+        top: 150%;
+    }
+}
+
+.detail-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+        0 20px 45px rgba(178, 34, 34, 0.35),
+        0 0 40px rgba(178, 34, 34, 0.15) inset;
+}
+
+.detail-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #B22222, #8B0000);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    color: white;
+    font-size: 2rem;
+    box-shadow: 0 0 25px rgba(178, 34, 34, 0.5);
+    transition: all 0.3s ease;
+}
+
+.detail-item:hover .detail-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 35px rgba(178, 34, 34, 0.7);
+}
+
+.detail-item h3 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.detail-item p {
+    color: #e0e0e0;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Стили для таймера */
+.countdown {
+    background: transparent;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.countdown .section-title {
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.countdown .section-title::after {
+    background: #4CAF50;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.timer-unit {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    min-width: 120px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(178, 34, 34, 0.2) inset;
+    transition: all 0.3s ease;
+}
+
+.timer-unit:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(178, 34, 34, 0.3) inset;
+}
+
+.timer-unit span {
+    display: block;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+.timer-unit small {
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 1rem;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+}
+
+/* Стили для формы */
+
+.rsvp::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><circle cx="20" cy="20" r="2" fill="rgba(76,175,80,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(76,175,80,0.1)"/><circle cx="20" cy="80" r="2" fill="rgba(178,34,34,0.1)"/><circle cx="80" cy="20" r="2" fill="rgba(178,34,34,0.1)"/></svg>');
+    pointer-events: none;
+}
+
+.rsvp-form {
+    max-width: 550px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.rsvp-form input,
+.rsvp-form textarea {
+    padding: 1.2rem 1.8rem;
+    border: 2px solid rgba(178, 34, 34, 0.3);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    backdrop-filter: blur(10px);
+}
+
+.rsvp-form input::placeholder,
+.rsvp-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.rsvp-form input:focus,
+.rsvp-form textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 
+        0 0 0 3px rgba(76, 175, 80, 0.2),
+        0 0 20px rgba(76, 175, 80, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.rsvp-form textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.rsvp-form button {
+    background: linear-gradient(135deg, #B22222, #8B0000);
+    color: white;
+    border: none;
+    padding: 1.4rem 2.5rem;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        0 5px 20px rgba(178, 34, 34, 0.4),
+        0 0 15px rgba(76, 175, 80, 0.3) inset;
+    position: relative;
+    overflow: hidden;
+}
+
+.rsvp-form button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.rsvp-form button:hover::before {
+    left: 100%;
+}
+
+.rsvp-form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 25px rgba(178, 34, 34, 0.6),
+        0 0 20px rgba(76, 175, 80, 0.4) inset;
+    background: linear-gradient(135deg, #8B0000, #B22222);
+}
+
+/* Подвал */
+footer {
+    background: transparent;
+    color: white;
+    text-align: center;
+    padding: 4rem 0;
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-content p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.social-icons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-icons a:hover {
+    background: #4CAF50;
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.8rem;
+    }
+    
+    .hero-date {
+        font-size: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .timer {
+        gap: 1rem;
+    }
+    
+    .timer-unit {
+        min-width: 80px;
+        padding: 1.5rem 1rem;
+    }
+    
+    .timer-unit span {
+        font-size: 2.2rem;
+    }
+    
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .detail-item {
+        background: linear-gradient(145deg, rgba(42, 0, 0, 0.6), rgba(32, 0, 0, 0.7));
+        padding: 2.5rem 2rem;
+    }
+    
+    .detail-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    
+    .rsvp-form {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-date {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .timer {
+        gap: 0.8rem;
+    }
+    
+    .timer-unit {
+        min-width: 70px;
+        padding: 1.2rem 0.8rem;
+    }
+    
+    .timer-unit span {
+        font-size: 1.8rem;
+    }
+    
+    .timer-unit small {
+        font-size: 0.9rem;
+    }
+}

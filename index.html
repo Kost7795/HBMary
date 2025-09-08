@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на 30-летний юбилей</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element element-1">♥</div>
+        <div class="floating-element element-2">✦</div>
+        <div class="floating-element element-3">♦</div>
+        <div class="floating-element element-4">♠</div>
+    </div>
+
+    <div class="container">
+        <!-- Главный герой-баннер -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="animate-pop">Приглашение<br>на 30-летний юбилей</h1>
+                <p class="hero-date animate-fadein">03 ноября 2025 года</p>
+                <div class="decoration">✦</div>
+                <div class="scroll-indicator">
+                    <span>Листайте вниз</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок с деталями -->
+        <section class="details">
+            <h2 class="section-title">Мы будем рады вас видеть</h2>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Когда</h3>
+                    <p>03 ноября 2025 г.</p>
+                    <p>Начало в 19:00</p>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Где</h3>
+                    <p>Ресторан "Венеция"</p>
+                    <p>ул. Центральная, 123</p>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Дресс-код</h3>
+                    <p>Вечерний наряд</p>
+                    <p>Нам будет приятно видеть вас в элегантных образах</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Таймер обратного отсчета -->
+        <section class="countdown">
+            <h2 class="section-title">До праздника осталось:</h2>
+            <div class="timer" id="timer">
+                <div class="timer-unit">
+                    <span id="days">00</span>
+                    <small>дней</small>
+                </div>
+                <div class="timer-unit">
+                    <span id="hours">00</span>
+                    <small>часов</small>
+                </div>
+                <div class="timer-unit">
+                    <span id="minutes">00</span>
+                    <small>минут</small>
+                </div>
+                <div class="timer-unit">
+                    <span id="seconds">00</span>
+                    <small>секунд</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок для подтверждения присутствия -->
+        <section class="rsvp">
+            <h2 class="section-title">Подтвердите, пожалуйста, ваше присутствие</h2>
+            <form class="rsvp-form">
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="email" placeholder="Ваш email или телефон" required>
+                <textarea placeholder="Ваши пожелания или комментарии..."></textarea>
+                <button type="submit">Я буду! <i class="fas fa-heart"></i></button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Подвал сайта -->
+    <footer>
+        <div class="footer-content">
+            <p>С любовью, ваша семья ❤️</p>
+            <p>По всем вопросам: +7 (XXX) XXX-XX-XX</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Подключаем скрипт -->
+    <script src="script.js"></script>
+</body>
+</html>
