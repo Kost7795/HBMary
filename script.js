@@ -37,7 +37,7 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
     document.getElementById('rsvp-form').reset();
 });
 
-// Smooth Scrolling
+// Smooth Scrolling with performance optimization
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -47,10 +47,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 70,
-                behavior: 'smooth'
-            });
+            const offsetTop = targetElement.offsetTop - 70;
+            
+            // Используем requestAnimationFrame для плавной прокрутки
+            const startPosition = window.pageYOffset;
+            const distance = offsetTop - startPosition;
+            const duration = 800;
+            let start = null;
+            
+            function step(timestamp) {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                const percentage = Math.min(progress / duration, 1);
+                
+                // easing function для более плавной анимации
+                const easeInOut = percentage < 0.5 
+                    ? 4 * percentage * percentage * percentage 
+                    : 1 - Math.pow(-2 * percentage + 2, 3) / 2;
+                
+                window.scrollTo(0, startPosition + distance * easeInOut);
+                
+                if (progress < duration) {
+                    window.requestAnimationFrame(step);
+                }
+            }
+            
+            window.requestAnimationFrame(step);
             
             // Закрытие мобильного меню
             document.querySelector('.nav-links').classList.remove('active');
@@ -74,4 +96,13 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('section').forEach(section => {
     observer.observe(section);
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(e) {
+    const nav = document.querySelector('.nav-container');
+    const menu = document.querySelector('.nav-links');
+    if (!nav.contains(e.target) && menu.classList.contains('active')) {
+        menu.classList.remove('active');
+    }
 });
