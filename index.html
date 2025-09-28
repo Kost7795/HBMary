@@ -3,115 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приглашение на 30-летний юбилей</title>
+    <title>Приглашение на 30-летие</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="floating-elements">
-        <div class="floating-element element-1">♥</div>
-        <div class="floating-element element-2">✦</div>
-        <div class="floating-element element-3">♦</div>
-        <div class="floating-element element-4">♠</div>
-    </div>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container nav-container">
+            <div class="logo">30<span>лет</span></div>
+            <ul class="nav-links">
+                <li><a href="#invitation">Приглашение</a></li>
+                <li><a href="#dress-code">Дресс-код</a></li>
+                <li><a href="#location">Адрес</a></li>
+                <li><a href="#rsvp">Подтверждение</a></li>
+            </ul>
+            <div class="mobile-menu" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
 
-    <div class="container">
-        <!-- Главный герой-баннер -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="animate-pop">Приглашение<br>на 30-летний юбилей</h1>
-                <p class="hero-date animate-fadein">03 ноября 2025 года</p>
-                <div class="decoration">✦</div>
-                <div class="scroll-indicator">
-                    <span>Листайте вниз</span>
-                    <i class="fas fa-chevron-down"></i>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+        <div class="container hero-content fade-in">
+            <h1>30 лет</h1>
+            <p>Приглашение на юбилей</p>
+            <div class="date">3 ноября 2025 года</div>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">дней</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">часов</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">минут</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">секунд</span>
                 </div>
             </div>
-        </section>
+            <a href="#rsvp" class="btn">Подтвердить участие</a>
+        </div>
+    </section>
 
-        <!-- Блок с деталями -->
-        <section class="details">
-            <h2 class="section-title">Мы будем рады вас видеть</h2>
-            <div class="details-grid">
-                <div class="detail-item">
-                    <div class="detail-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <h3>Когда</h3>
-                    <p>03 ноября 2025 г.</p>
-                    <p>Начало в 19:00</p>
+    <!-- Invitation Section -->
+    <section id="invitation" class="invitation">
+        <div class="container">
+            <h2 class="section-title">Приглашение</h2>
+            <div class="invitation-content">
+                <p class="invitation-text">
+                    Дорогие друзья!<br><br>
+                    Приглашаю вас отпраздновать со мной мой <span class="highlight">30-й день рождения</span>!<br><br>
+                    Жду вас <span class="highlight">3 ноября 2025 года</span> в <span class="highlight">19:00</span> для незабываемого вечера в кругу близких людей.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dress Code Section -->
+    <section id="dress-code" class="dress-code">
+        <div class="container">
+            <h2 class="section-title">Дресс-код</h2>
+            <div class="dress-code-content">
+                <p>Для создания гармоничной атмосферы прошу придерживаться следующей цветовой палитры:</p>
+                <div class="color-palette">
+                    <div class="color-item color-1">Черный</div>
+                    <div class="color-item color-2">Красный</div>
+                    <div class="color-item color-3">Бордовый</div>
+                    <div class="color-item color-4">Графитовый</div>
                 </div>
-                <div class="detail-item">
-                    <div class="detail-icon">
+                <p>Стиль: <span class="highlight">Вечерний, элегантный</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="location">
+        <div class="container">
+            <h2 class="section-title">Место проведения</h2>
+            <div class="location-content">
+                <div class="location-info">
+                    <h3>Ресторан "Красный зал"</h3>
+                    <div class="address">
                         <i class="fas fa-map-marker-alt"></i>
+                        г. Москва, ул. Тверская, д. 15
                     </div>
-                    <h3>Где</h3>
-                    <p>Ресторан "Венеция"</p>
-                    <p>ул. Центральная, 123</p>
+                    <p>Торжество пройдет в стильном банкетном зале с панорамными окнами и изысканным интерьером в красно-черных тонах.</p>
+                    <p class="highlight">Ближайшая станция метро: Тверская</p>
                 </div>
-                <div class="detail-item">
-                    <div class="detail-icon">
-                        <i class="fas fa-tshirt"></i>
-                    </div>
-                    <h3>Дресс-код</h3>
-                    <p>Вечерний наряд</p>
-                    <p>Нам будет приятно видеть вас в элегантных образах</p>
+                <div class="location-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.372789733686!2d37.60985631593057!3d55.75582698055309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54a5b1d5f8f3f%3A0x3a3c3b3b3b3b3b3b!2z0JzQtdC20LTRg9C90LDRgNC-0LTQvdGL0Lkg0YPQvdC40LLQtdGA0YHQuNGC0LXRgiDQv9C-0LvRjNGB0LrQsNGP!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Таймер обратного отсчета -->
-        <section class="countdown">
-            <h2 class="section-title">До праздника осталось:</h2>
-            <div class="timer" id="timer">
-                <div class="timer-unit">
-                    <span id="days">00</span>
-                    <small>дней</small>
-                </div>
-                <div class="timer-unit">
-                    <span id="hours">00</span>
-                    <small>часов</small>
-                </div>
-                <div class="timer-unit">
-                    <span id="minutes">00</span>
-                    <small>минут</small>
-                </div>
-                <div class="timer-unit">
-                    <span id="seconds">00</span>
-                    <small>секунд</small>
-                </div>
+    <!-- RSVP Section -->
+    <section id="rsvp" class="rsvp">
+        <div class="container">
+            <h2 class="section-title">Подтвердите участие</h2>
+            <div class="rsvp-content">
+                <p class="mb-2">Пожалуйста, подтвердите ваше участие до <span class="highlight">25 октября 2025 года</span></p>
+                <form class="rsvp-form" id="rsvp-form">
+                    <div class="form-group">
+                        <label for="name">Ваше имя *</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Номер телефона *</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Количество гостей (включая вас)</label>
+                        <select id="guests" class="form-control">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Пожелания или комментарии</label>
+                        <textarea id="message" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Подтвердить участие</button>
+                </form>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Блок для подтверждения присутствия -->
-        <section class="rsvp">
-            <h2 class="section-title">Подтвердите, пожалуйста, ваше присутствие</h2>
-            <form class="rsvp-form">
-                <input type="text" placeholder="Ваше имя" required>
-                <input type="email" placeholder="Ваш email или телефон" required>
-                <textarea placeholder="Ваши пожелания или комментарии..."></textarea>
-                <button type="submit">Я буду! <i class="fas fa-heart"></i></button>
-            </form>
-        </section>
-    </div>
-
-    <!-- Подвал сайта -->
+    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <p>С любовью, ваша семья ❤️</p>
-            <p>По всем вопросам: +7 (XXX) XXX-XX-XX</p>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                <a href="#"><i class="fab fa-telegram"></i></a>
+        <div class="container">
+            <div class="footer-content">
+                <h3>Жду встречи с вами!</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p>По всем вопросам: +7 (999) 123-45-67</p>
             </div>
         </div>
     </footer>
 
-    <!-- Подключаем скрипт -->
     <script src="script.js"></script>
 </body>
 </html>
