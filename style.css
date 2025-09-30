@@ -1,8 +1,6 @@
 @font-face {
-    font-family: 'TwilightC';
-    src: url('fonts/TwilightC-Regular.woff2') format('woff2'),
-         url('fonts/TwilightC-Regular.woff') format('woff'),
-         url('fonts/TwilightC-Regular.ttf') format('truetype');
+    font-family: 'Seenonim';
+    src: url('fonts/seenonim-v1.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -36,10 +34,14 @@ body {
     overflow-x: hidden;
     position: relative;
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.85)),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23000'/%3E%3Cpath d='M0,0 L60,60 M60,0 L0,60' stroke='%23D10000' stroke-width='1.2'/%3E%3C/svg%3E");
+        /* Темный оверлей для лучшей читаемости текста */
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        /* Ваша картинка */
+        url('fon.jpeg');
     background-attachment: fixed;
-    background-size: 60px 60px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .container {
@@ -53,13 +55,13 @@ section {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
     background: transparent;
 }
 
 .section-title {
-    font-family: 'TwilightC', cursive;
+    font-family: 'Seenonim', 'Cormorant Infant', cursive;
     font-size: 1.8rem;
     margin-bottom: 2rem;
     text-align: center;
@@ -80,6 +82,7 @@ section {
 .hero {
     text-align: center;
     position: relative;
+    padding: 20%, 20%;
 }
 
 .hero-content {
@@ -87,12 +90,28 @@ section {
 }
 
 .hero h1 {
-    font-family: 'TwilightC', cursive;
+    font-family: 'Seenonim', 'Cormorant Infant', cursive;
     font-size: 2.5rem;
     margin-bottom: 1rem;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 2px;
+    text-align: center;
+    line-height: 1.3;
+    width: 100%;
+    padding: 0 15px; /* Отступы для всего заголовка */
+    box-sizing: border-box;
+}
+
+.hero-line {
+    display: block;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.hero-subline {
+    display: block;
+    text-align: center;
 }
 
 .hero p {
@@ -106,6 +125,15 @@ section {
     font-weight: 600;
     margin: 2rem 0;
     color: var(--primary-red);
+    text-shadow: 
+        1px 1px 0 black,
+        -1px -1px 0 black,
+        1px -1px 0 black,
+        -1px 1px 0 black;
+}
+
+.countdown-section {
+    padding: 0 20px; /* Отступы слева и справа */
 }
 
 .countdown {
@@ -116,7 +144,7 @@ section {
 }
 
 .countdown-item {
-    background: rgba(26, 26, 26, 0.75);
+    background: rgba(27, 27, 27, 0.75);
     padding: 15px 5px;
     border-radius: 8px;
     border: 1px solid rgba(209, 0, 0, 0.4);
@@ -136,13 +164,51 @@ section {
     opacity: 0.8;
 }
 
+/* Scroll Down Arrow */
+.scroll-down-arrow {
+    position: absolute;
+    /* bottom: 30px; */
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: var(--transition);
+    z-index: 10;
+    animation: bounce 2s infinite;
+}
+
+.scroll-down-arrow:hover {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* Hide arrow when scrolled */
+.scroll-down-arrow.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
 /* Navigation */
 nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgb(0, 0, 0);
     z-index: 1000;
     padding: 15px 0;
     backdrop-filter: blur(10px);
@@ -158,7 +224,7 @@ nav {
 }
 
 .logo {
-    font-family: 'TwilightC', cursive;
+    font-family: 'Seenonim', 'Cormorant Infant', cursive;
     font-size: 1.5rem;
     font-weight: 400;
     color: var(--white);
@@ -241,16 +307,19 @@ nav {
 }
 
 .color-palette {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 2rem 0;
-    justify-items: center;
+}
+
+.color-wrapper {
+    text-align: center;
 }
 
 .color-item {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -261,13 +330,14 @@ nav {
     backdrop-filter: blur(10px);
     border: 2px solid rgba(209, 0, 0, 0.3);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
 }
 
 .color-name {
     margin-top: 15px;
     font-weight: 600;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .color-1 { background-color: rgba(0, 0, 0, 0.95); }
@@ -284,6 +354,7 @@ nav {
 
 .location-info {
     order: 2;
+    text-align: center;
 }
 
 .location-map {
@@ -507,5 +578,19 @@ section {
         order: 2;
         flex: 1;
         height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .hero h1 {
+        font-size: 1.7rem;
+        padding: 0 5px;
     }
 }
