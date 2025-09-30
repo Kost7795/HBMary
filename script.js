@@ -23,18 +23,15 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// Form Submission
+// Form Submission для Google Forms
 document.getElementById('rsvp-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
     
-    // Здесь обычно отправка данных на сервер
-    alert(`Спасибо, ${name}! Ваше участие подтверждено. Мы свяжемся с вами по номеру ${phone}.`);
-    
-    // Очистка формы
-    document.getElementById('rsvp-form').reset();
+    setTimeout(function() {
+        alert(`Спасибо, ${name}! Ваше участие подтверждено. Мы свяжемся с вами по номеру ${phone}.`);
+        document.getElementById('rsvp-form').reset();
+    }, 1000);
 });
 
 // Smooth Scrolling with performance optimization
@@ -106,3 +103,65 @@ document.addEventListener('click', function(e) {
         menu.classList.remove('active');
     }
 });
+
+// Scroll Down Arrow functionality
+const scrollDownArrow = document.getElementById('scroll-down-arrow');
+
+// Click event to scroll to next section
+scrollDownArrow.addEventListener('click', function() {
+    const nextSection = document.getElementById('invitation');
+    if (nextSection) {
+        const offsetTop = nextSection.offsetTop - 70;
+        
+        const startPosition = window.pageYOffset;
+        const distance = offsetTop - startPosition;
+        const duration = 800;
+        let start = null;
+        
+        function step(timestamp) {
+            if (!start) start = timestamp;
+            const progress = timestamp - start;
+            const percentage = Math.min(progress / duration, 1);
+            
+            const easeInOut = percentage < 0.5 
+                ? 4 * percentage * percentage * percentage 
+                : 1 - Math.pow(-2 * percentage + 2, 3) / 2;
+            
+            window.scrollTo(0, startPosition + distance * easeInOut);
+            
+            if (progress < duration) {
+                window.requestAnimationFrame(step);
+            }
+        }
+        
+        window.requestAnimationFrame(step);
+    }
+});
+
+// Show/hide arrow based on scroll position
+function handleScroll() {
+    const heroSection = document.querySelector('.hero');
+    const scrollPosition = window.pageYOffset;
+    const heroHeight = heroSection.offsetHeight;
+    
+    // Hide arrow when scrolled down more than 20% of hero section
+    if (scrollPosition > heroHeight * 0.2) {
+        scrollDownArrow.classList.add('hidden');
+    } else {
+        scrollDownArrow.classList.remove('hidden');
+    }
+}
+
+// Throttle scroll event for performance
+let scrollTimeout;
+window.addEventListener('scroll', function() {
+    if (!scrollTimeout) {
+        scrollTimeout = setTimeout(function() {
+            scrollTimeout = null;
+            handleScroll();
+        }, 10);
+    }
+});
+
+// Initial check
+handleScroll();
