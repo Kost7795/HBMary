@@ -39,7 +39,7 @@ body {
         /* Ваша картинка */
         url('fon.jpeg');
     background-attachment: fixed;
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
