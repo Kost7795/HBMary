@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -29,47 +30,52 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content fade-in">
-            <h1>Приглашение на <span class="highlight">30</span>-летие</h1>
+            <h1>
+                <span class="hero-line">Приглашение</span>
+                <span class="hero-subline">на <span class="highlight">30</span>-летие</span>
+            </h1>
             <p>Присоединяйтесь к празднованию этого особенного дня!</p>
             <div class="date">3 ноября 2025 года</div>
-            <a href="#rsvp" class="btn">Подтвердить участие</a>
+            <!-- Таймер остается здесь -->
+            <div class="countdown-section">
+                <div class="countdown-title">До праздника осталось:</div>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="days">00</span>
+                        <span class="countdown-label">дней</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="hours">00</span>
+                        <span class="countdown-label">часов</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="minutes">00</span>
+                        <span class="countdown-label">минут</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="seconds">00</span>
+                        <span class="countdown-label">секунд</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Анимированная стрелка -->
+            <div class="scroll-down-arrow" id="scroll-down-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </div>
     </section>
 
     <!-- Invitation Section -->
     <section id="invitation" class="invitation">
         <div class="container">
-            <h2 class="section-title">Приглашение</h2>
+            <h2 class="section-title">Дорогие друзья!</h2>
             <div class="invitation-content">
                 <p class="invitation-text">
-                    Дорогие друзья!<br><br>
-                    Приглашаю вас разделить со мной радость празднования моего <span class="highlight">30-летия</span>!<br><br>
-                    Этот день будет наполнен теплыми встречами, веселыми разговорами и, конечно же, вкусными угощениями.<br><br>
+                    Приглашаю вас разделить со мной радость празднования моего <span class="highlight">30-летия</span>!<br>
+                    Этот день будет наполнен теплыми встречами, веселыми разговорами и, конечно же, вкусными угощениями.<br>
                     Жду вас <span class="highlight">3 ноября 2025 года</span> в <span class="highlight">19:00</span> по адресу, указанному ниже.
                 </p>
-                
-                <!-- Таймер остается здесь -->
-                <div class="countdown-section">
-                    <div class="countdown-title">До праздника осталось:</div>
-                    <div class="countdown" id="countdown">
-                        <div class="countdown-item">
-                            <span class="countdown-number" id="days">00</span>
-                            <span class="countdown-label">дней</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-number" id="hours">00</span>
-                            <span class="countdown-label">часов</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-number" id="minutes">00</span>
-                            <span class="countdown-label">минут</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-number" id="seconds">00</span>
-                            <span class="countdown-label">секунд</span>
-                        </div>
-                    </div>
-                </div>
+                <a href="#rsvp" class="btn">Подтвердить участие</a>
             </div>
         </div>
     </section>
@@ -79,26 +85,15 @@
         <div class="container">
             <h2 class="section-title">Дресс-код</h2>
             <div class="dress-code-content">
-                <p>Для создания гармоничной атмосферы прошу придерживаться следующей цветовой палитры:</p>
+                <p>Черный с элементами красного</p>
+                <p>Референс:</p>
                 <div class="color-palette">
                     <div class="color-wrapper">
                         <div class="color-item color-1"></div>
                         <div class="color-name">Черный</div>
                     </div>
-                    <div class="color-wrapper">
-                        <div class="color-item color-2"></div>
-                        <div class="color-name">Красный</div>
-                    </div>
-                    <div class="color-wrapper">
-                        <div class="color-item color-3"></div>
-                        <div class="color-name">Бордовый</div>
-                    </div>
-                    <div class="color-wrapper">
-                        <div class="color-item color-4"></div>
-                        <div class="color-name">Графитовый</div>
-                    </div>
                 </div>
-                <p>Стиль: <span class="highlight">Вечерний, элегантный</span></p>
+                <p>Стиль: <span class="highlight">Вечерний</span></p>
             </div>
         </div>
     </section>
@@ -109,16 +104,16 @@
             <h2 class="section-title">Место проведения</h2>
             <div class="location-content">
                 <div class="location-info">
-                    <h3>Ресторан "Красный зал"</h3>
+                    <h3>"Cafellini"</h3>
                     <div class="address">
                         <i class="fas fa-map-marker-alt"></i>
-                        г. Москва, ул. Тверская, д. 15
+                        г. Липецк, просп. 60 лет СССР, 36/7
                     </div>
                     <p>Торжество пройдет в стильном банкетном зале с панорамными окнами и изысканным интерьером в красно-черных тонах.</p>
-                    <p class="highlight">Ближайшая станция метро: Тверская</p>
+                    <p class="highlight">Расположение: Парк Победы</p>
                 </div>
                 <div class="location-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.372789733686!2d37.60985631593057!3d55.75582698055309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54a5b1d5f8f3f%3A0x3a3c3b3b3b3b3b3b!2z0JzQtdC20LTRg9C90LDRgNC-0LTQvdGL0Lkg0YPQvdC40LLQtdGA0YHQuNGC0LXRgiDQv9C-0LvRjNGB0LrQsNGP!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4736.672212173097!2d39.52627519532307!3d52.59495808345755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x413a6b487e2103f9%3A0x7f6a8be89a890355!2sCafellini!5e0!3m2!1sru!2sru!4v1759266399277!5m2!1sru!2sru" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
@@ -129,31 +124,41 @@
         <div class="container">
             <h2 class="section-title">Подтвердите участие</h2>
             <div class="rsvp-content">
-                <p class="mb-2">Пожалуйста, подтвердите ваше участие до <span class="highlight">25 октября 2025 года</span></p>
-                <form class="rsvp-form" id="rsvp-form">
+                <p class="mb-2">Пожалуйста, подтвердите ваше участие</br>до <span class="highlight">25 октября 2025 года</span></p>
+                <form class="rsvp-form" id="rsvp-form" 
+                    action="https://docs.google.com/forms/d/e/1FAIpQLSfHwGl-DEKuRWtHDjH5o6uwiOXnaV34qLTQFyQTESkX4rGNnw/viewform?usp=header" 
+                    method="POST" target="hiddenFrame">
+                    
                     <div class="form-group">
                         <label for="name">Ваше имя *</label>
-                        <input type="text" id="name" class="form-control" required>
+                        <input type="text" id="name" name="entry.123456789" class="form-control" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="phone">Номер телефона *</label>
-                        <input type="tel" id="phone" class="form-control" required>
+                        <input type="tel" id="phone" name="entry.987654321" class="form-control" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="guests">Количество гостей (включая вас)</label>
-                        <select id="guests" class="form-control">
+                        <select id="guests" name="entry.555555555" class="form-control">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
                         </select>
                     </div>
+                    
                     <div class="form-group">
                         <label for="message">Пожелания или комментарии</label>
-                        <textarea id="message" class="form-control" rows="4"></textarea>
+                        <textarea id="message" name="entry.333333333" class="form-control" rows="4"></textarea>
                     </div>
+                    
                     <button type="submit" class="btn">Подтвердить участие</button>
                 </form>
+
+                <!-- Скрытый iframe для отправки формы без перезагрузки страницы -->
+                <iframe name="hiddenFrame" style="display: none;"></iframe>
             </div>
         </div>
     </section>
