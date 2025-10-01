@@ -23,17 +23,6 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// Form Submission для Google Forms
-document.getElementById('rsvp-form').addEventListener('submit', function(e) {
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    
-    setTimeout(function() {
-        alert(`Спасибо, ${name}! Ваше участие подтверждено. Мы свяжемся с вами по номеру ${phone}.`);
-        document.getElementById('rsvp-form').reset();
-    }, 1000);
-});
-
 // Smooth Scrolling with performance optimization
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
