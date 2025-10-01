@@ -166,7 +166,7 @@ function initTabs() {
     });
 }
 
-// Carousel functionality with true infinite loop - FIXED VERSION
+// Carousel functionality with smooth infinite loop
 function initCarousel(tabId = 'women-tab') {
     const currentTab = document.getElementById(tabId);
     if (!currentTab) return;
@@ -180,11 +180,8 @@ function initCarousel(tabId = 'women-tab') {
     
     if (!carouselTrack || !slides.length) return;
     
-    // Правильный подсчет слайдов
-    const totalSlides = slides.length; // Всего слайдов (включая клоны)
-    const realSlidesCount = totalSlides - 2; // Реальные слайды (без клонов)
-    
-    console.log(`Total slides: ${totalSlides}, Real slides: ${realSlidesCount}`);
+    const totalSlides = slides.length;
+    const realSlidesCount = totalSlides - 2; // Без двух клонов
     
     let currentSlide = 1; // Начинаем с первого реального слайда
     let isDragging = false;
@@ -197,101 +194,88 @@ function initCarousel(tabId = 'women-tab') {
     let lastTime = 0;
     let slideWidth = 0;
 
-    // Функция для получения актуальной ширины слайда
     function getSlideWidth() {
         return carousel.offsetWidth || carouselTrack.offsetWidth;
     }
 
-    // Инициализация позиции
     function initializePosition() {
         slideWidth = getSlideWidth();
         currentTranslate = -currentSlide * slideWidth;
         prevTranslate = currentTranslate;
         carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
-        
         updateIndicators();
     }
 
-    // Обновление индикаторов
     function updateIndicators() {
         const realIndex = getRealSlideIndex(currentSlide);
-        console.log(`Current slide: ${currentSlide}, Real index: ${realIndex}`);
-        
         indicators.forEach(indicator => indicator.classList.remove('active'));
         if (indicators[realIndex]) {
             indicators[realIndex].classList.add('active');
         }
     }
 
-    // Получить реальный индекс слайда
     function getRealSlideIndex(virtualIndex) {
-        if (virtualIndex === 0) return realSlidesCount - 1; // Клон последнего -> последний реальный
-        if (virtualIndex === totalSlides - 1) return 0; // Клон первого -> первый реальный
-        return virtualIndex - 1; // Реальные слайды
+        if (virtualIndex === 0) return realSlidesCount - 1;
+        if (virtualIndex === totalSlides - 1) return 0;
+        return virtualIndex - 1;
     }
 
-    // Получить виртуальный индекс для реального слайда
     function getVirtualSlideIndex(realIndex) {
-        return realIndex + 1; // Реальные слайды начинаются с индекса 1
+        return realIndex + 1;
     }
 
-    // Плавный переход к слайду
+    // ОСНОВНАЯ ФИКСИРОВАННАЯ ФУНКЦИЯ
     function smoothTransitionToSlide(targetSlide) {
         slideWidth = getSlideWidth();
-        currentTranslate = -targetSlide * slideWidth;
         
+        // Плавный переход к целевому слайду
         carouselTrack.style.transition = 'transform 0.3s ease';
-        carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
+        carouselTrack.style.transform = `translateX(${-targetSlide * slideWidth}px)`;
         
         currentSlide = targetSlide;
-        prevTranslate = currentTranslate;
+        prevTranslate = -targetSlide * slideWidth;
         
         updateIndicators();
         
+        // После завершения анимации проверяем, не попали ли мы на клон
         setTimeout(() => {
             carouselTrack.style.transition = '';
             
-            // Бесшовный переход между клонами и реальными слайдами
+            // Если оказались на клоне последнего слайда (индекс 0)
             if (currentSlide === 0) {
-                // Перешли на клон последнего слайда - прыгаем к реальному последнему
+                // Мгновенно переходим к реальному последнему слайду
                 currentSlide = realSlidesCount;
                 currentTranslate = -currentSlide * slideWidth;
                 carouselTrack.style.transition = 'none';
                 carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
                 prevTranslate = currentTranslate;
-                updateIndicators();
-            } else if (currentSlide === totalSlides - 1) {
-                // Перешли на клон первого слайда - прыгаем к реальному первому
+            } 
+            // Если оказались на клоне первого слайда (последний индекс)
+            else if (currentSlide === totalSlides - 1) {
+                // Мгновенно переходим к реальному первому слайду
                 currentSlide = 1;
                 currentTranslate = -currentSlide * slideWidth;
                 carouselTrack.style.transition = 'none';
                 carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
                 prevTranslate = currentTranslate;
-                updateIndicators();
             }
         }, 300);
     }
 
-    // Следующий слайд
     function nextSlide() {
         const nextSlideIndex = currentSlide + 1;
-        console.log(`Next slide: ${nextSlideIndex}`);
         smoothTransitionToSlide(nextSlideIndex);
     }
 
-    // Предыдущий слайд
     function prevSlide() {
         const prevSlideIndex = currentSlide - 1;
-        console.log(`Prev slide: ${prevSlideIndex}`);
         smoothTransitionToSlide(prevSlideIndex);
     }
 
-    // Получить позицию X
     function getPositionX(event) {
         return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
     }
 
-    // Начало перетаскивания
     function startDrag(event) {
         if (event.type === 'touchstart') event.preventDefault();
         
@@ -307,7 +291,6 @@ function initCarousel(tabId = 'women-tab') {
         animationID = requestAnimationFrame(animation);
     }
 
-    // Перетаскивание
     function drag(event) {
         if (!isDragging) return;
         
@@ -326,7 +309,6 @@ function initCarousel(tabId = 'women-tab') {
         currentTranslate = prevTranslate + dragDistance;
     }
 
-    // Конец перетаскивания
     function endDrag() {
         if (!isDragging) return;
         
@@ -335,22 +317,18 @@ function initCarousel(tabId = 'women-tab') {
         cancelAnimationFrame(animationID);
         
         const dragDistance = currentTranslate - prevTranslate;
-        const slideWidth = getSlideWidth();
         
         let targetSlide = currentSlide;
         
-        // Определяем направление свайпа
-        if (dragDistance < -50) { // Свайп влево
+        if (dragDistance < -50) {
             targetSlide = currentSlide + 1;
-        } else if (dragDistance > 50) { // Свайп вправо
+        } else if (dragDistance > 50) {
             targetSlide = currentSlide - 1;
         }
         
-        console.log(`Drag ended, target slide: ${targetSlide}`);
         smoothTransitionToSlide(targetSlide);
     }
 
-    // Анимация
     function animation() {
         carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
         if (isDragging) {
@@ -358,7 +336,7 @@ function initCarousel(tabId = 'women-tab') {
         }
     }
 
-    // Обработчики событий
+    // Event listeners
     carousel.addEventListener('mousedown', startDrag);
     window.addEventListener('mousemove', drag);
     window.addEventListener('mouseup', endDrag);
@@ -373,23 +351,42 @@ function initCarousel(tabId = 'women-tab') {
     indicators.forEach((indicator, index) => {
         indicator.addEventListener('click', () => {
             const virtualIndex = getVirtualSlideIndex(index);
-            console.log(`Indicator clicked: ${index} -> virtual: ${virtualIndex}`);
             smoothTransitionToSlide(virtualIndex);
         });
     });
 
     carousel.addEventListener('dragstart', (e) => e.preventDefault());
-
-    // Обработчик изменения размера окна
     window.addEventListener('resize', initializePosition);
 
-    // Инициализация
+    // Initialize
     setTimeout(() => {
         initializePosition();
     }, 100);
 }
 
-// Инициализируем все после загрузки DOM
+// Tabs functionality
+function initTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            
+            this.classList.add('active');
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+            
+            setTimeout(() => {
+                initCarousel(`${tabId}-tab`);
+            }, 50);
+        });
+    });
+}
+
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
     initTabs();
     initCarousel('women-tab');
