@@ -88,11 +88,110 @@
             <h2 class="section-title">Дресс-код</h2>
             <div class="dress-code-content">
                 <p>Черный с элементами красного</p>
-                <p>Референс:</p>
+                
+                <!-- Табы -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-button active" data-tab="women">
+                            <i class="fas fa-female"></i> Женский
+                        </button>
+                        <button class="tab-button" data-tab="men">
+                            <i class="fas fa-male"></i> Мужской
+                        </button>
+                    </div>
+                    
+                    <!-- Контент табов -->
+                    <div class="tabs-content">
+                        <!-- Женский дресс-код -->
+                        <div class="tab-pane active" id="women-tab">
+                            <div class="carousel-container">
+                                <div class="carousel">
+                                    <div class="carousel-track">
+                                        <div class="carousel-slide active">
+                                            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400" alt="Вечернее платье">
+                                            <div class="slide-caption">Элегантное черное платье</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400" alt="Коктейльное платье">
+                                            <div class="slide-caption">Коктейльное платье с красными акцентами</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400" alt="Вечерний наряд">
+                                            <div class="slide-caption">Комплект с красными деталями</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="https://images.unsplash.com/photo-1485231183945-fffde7cb39ef?w=400" alt="Аксессуары">
+                                            <div class="slide-caption">Аксессуары в красных тонах</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="carousel-arrow carousel-arrow-prev">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="carousel-arrow carousel-arrow-next">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                
+                                <div class="carousel-indicators">
+                                    <span class="indicator active" data-slide="0"></span>
+                                    <span class="indicator" data-slide="1"></span>
+                                    <span class="indicator" data-slide="2"></span>
+                                    <span class="indicator" data-slide="3"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Мужской дресс-код -->
+                        <div class="tab-pane" id="men-tab">
+                            <div class="carousel-container">
+                                <div class="carousel">
+                                    <div class="carousel-track">
+                                        <div class="carousel-slide active">
+                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="Классический костюм">
+                                            <div class="slide-caption">Классический черный костюм</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=400" alt="Смокинг">
+                                            <div class="slide-caption">Смокинг с красным галстуком</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?w=400" alt="Рубашка с жилетом">
+                                            <div class="slide-caption">Рубашка с жилетом</div>
+                                        </div>
+                                        <div class="carousel-slide">
+                                            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400" alt="Аксессуары">
+                                            <div class="slide-caption">Мужские аксессуары</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="carousel-arrow carousel-arrow-prev">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="carousel-arrow carousel-arrow-next">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                
+                                <div class="carousel-indicators">
+                                    <span class="indicator active" data-slide="0"></span>
+                                    <span class="indicator" data-slide="1"></span>
+                                    <span class="indicator" data-slide="2"></span>
+                                    <span class="indicator" data-slide="3"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="color-palette">
                     <div class="color-wrapper">
                         <div class="color-item color-1"></div>
                         <div class="color-name">Черный</div>
+                    </div>
+                    <div class="color-wrapper">
+                        <div class="color-item color-2"></div>
+                        <div class="color-name">Красный</div>
                     </div>
                 </div>
                 <p>Стиль: <span class="highlight">Вечерний</span></p>
