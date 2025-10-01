@@ -166,7 +166,7 @@ function initTabs() {
     });
 }
 
-// Carousel functionality with real-time dragging and infinite loop
+// Carousel functionality with true infinite loop - FIXED VERSION
 function initCarousel(tabId = 'women-tab') {
     const currentTab = document.getElementById(tabId);
     if (!currentTab) return;
@@ -180,7 +180,13 @@ function initCarousel(tabId = 'women-tab') {
     
     if (!carouselTrack || !slides.length) return;
     
-    let currentSlide = 0;
+    // Правильный подсчет слайдов
+    const totalSlides = slides.length; // Всего слайдов (включая клоны)
+    const realSlidesCount = totalSlides - 2; // Реальные слайды (без клонов)
+    
+    console.log(`Total slides: ${totalSlides}, Real slides: ${realSlidesCount}`);
+    
+    let currentSlide = 1; // Начинаем с первого реального слайда
     let isDragging = false;
     let startPos = 0;
     let currentTranslate = 0;
@@ -189,46 +195,95 @@ function initCarousel(tabId = 'women-tab') {
     let lastPos = 0;
     let velocity = 0;
     let lastTime = 0;
-    const totalSlides = slides.length;
+    let slideWidth = 0;
 
-    // Функция для показа слайда с поддержкой зацикливания
-    function showSlide(index) {
-        currentSlide = index;
-        
-        // Зацикливание: если вышли за границы, переходим на противоположный конец
-        if (currentSlide < 0) {
-            currentSlide = totalSlides - 1;
-        } else if (currentSlide >= totalSlides) {
-            currentSlide = 0;
-        }
-        
-        currentTranslate = currentSlide * -carouselTrack.offsetWidth;
+    // Функция для получения актуальной ширины слайда
+    function getSlideWidth() {
+        return carousel.offsetWidth || carouselTrack.offsetWidth;
+    }
+
+    // Инициализация позиции
+    function initializePosition() {
+        slideWidth = getSlideWidth();
+        currentTranslate = -currentSlide * slideWidth;
         prevTranslate = currentTranslate;
+        carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
         
-        // Плавный переход
+        updateIndicators();
+    }
+
+    // Обновление индикаторов
+    function updateIndicators() {
+        const realIndex = getRealSlideIndex(currentSlide);
+        console.log(`Current slide: ${currentSlide}, Real index: ${realIndex}`);
+        
+        indicators.forEach(indicator => indicator.classList.remove('active'));
+        if (indicators[realIndex]) {
+            indicators[realIndex].classList.add('active');
+        }
+    }
+
+    // Получить реальный индекс слайда
+    function getRealSlideIndex(virtualIndex) {
+        if (virtualIndex === 0) return realSlidesCount - 1; // Клон последнего -> последний реальный
+        if (virtualIndex === totalSlides - 1) return 0; // Клон первого -> первый реальный
+        return virtualIndex - 1; // Реальные слайды
+    }
+
+    // Получить виртуальный индекс для реального слайда
+    function getVirtualSlideIndex(realIndex) {
+        return realIndex + 1; // Реальные слайды начинаются с индекса 1
+    }
+
+    // Плавный переход к слайду
+    function smoothTransitionToSlide(targetSlide) {
+        slideWidth = getSlideWidth();
+        currentTranslate = -targetSlide * slideWidth;
+        
         carouselTrack.style.transition = 'transform 0.3s ease';
         carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
         
-        // Обновляем индикаторы
-        indicators.forEach(indicator => indicator.classList.remove('active'));
-        if (indicators[currentSlide]) {
-            indicators[currentSlide].classList.add('active');
-        }
+        currentSlide = targetSlide;
+        prevTranslate = currentTranslate;
         
-        // Убираем transition после анимации
+        updateIndicators();
+        
         setTimeout(() => {
             carouselTrack.style.transition = '';
+            
+            // Бесшовный переход между клонами и реальными слайдами
+            if (currentSlide === 0) {
+                // Перешли на клон последнего слайда - прыгаем к реальному последнему
+                currentSlide = realSlidesCount;
+                currentTranslate = -currentSlide * slideWidth;
+                carouselTrack.style.transition = 'none';
+                carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
+                prevTranslate = currentTranslate;
+                updateIndicators();
+            } else if (currentSlide === totalSlides - 1) {
+                // Перешли на клон первого слайда - прыгаем к реальному первому
+                currentSlide = 1;
+                currentTranslate = -currentSlide * slideWidth;
+                carouselTrack.style.transition = 'none';
+                carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
+                prevTranslate = currentTranslate;
+                updateIndicators();
+            }
         }, 300);
     }
 
-    // Следующий слайд с зацикливанием
+    // Следующий слайд
     function nextSlide() {
-        showSlide(currentSlide + 1);
+        const nextSlideIndex = currentSlide + 1;
+        console.log(`Next slide: ${nextSlideIndex}`);
+        smoothTransitionToSlide(nextSlideIndex);
     }
 
-    // Предыдущий слайд с зацикливанием
+    // Предыдущий слайд
     function prevSlide() {
-        showSlide(currentSlide - 1);
+        const prevSlideIndex = currentSlide - 1;
+        console.log(`Prev slide: ${prevSlideIndex}`);
+        smoothTransitionToSlide(prevSlideIndex);
     }
 
     // Получить позицию X
@@ -247,10 +302,8 @@ function initCarousel(tabId = 'women-tab') {
         velocity = 0;
         carousel.classList.add('grabbing');
         
-        // Отключаем transition во время перетаскивания
+        slideWidth = getSlideWidth();
         carouselTrack.style.transition = 'none';
-        
-        // Запускаем анимацию
         animationID = requestAnimationFrame(animation);
     }
 
@@ -262,7 +315,6 @@ function initCarousel(tabId = 'women-tab') {
         const currentTime = Date.now();
         const deltaTime = currentTime - lastTime;
         
-        // Рассчитываем скорость для плавности
         if (deltaTime > 0) {
             const deltaX = currentPosition - lastPos;
             velocity = deltaX / deltaTime;
@@ -270,12 +322,11 @@ function initCarousel(tabId = 'women-tab') {
             lastTime = currentTime;
         }
         
-        // Двигаем карточку ровно на столько, насколько двигается палец
         const dragDistance = currentPosition - startPos;
         currentTranslate = prevTranslate + dragDistance;
     }
 
-    // Конец перетаскивания с поддержкой зацикливания
+    // Конец перетаскивания
     function endDrag() {
         if (!isDragging) return;
         
@@ -284,19 +335,19 @@ function initCarousel(tabId = 'women-tab') {
         cancelAnimationFrame(animationID);
         
         const dragDistance = currentTranslate - prevTranslate;
+        const slideWidth = getSlideWidth();
         
-        // Простая логика переключения на 1 слайд с зацикливанием
         let targetSlide = currentSlide;
         
+        // Определяем направление свайпа
         if (dragDistance < -50) { // Свайп влево
             targetSlide = currentSlide + 1;
         } else if (dragDistance > 50) { // Свайп вправо
             targetSlide = currentSlide - 1;
         }
-        // Если движение меньше 50px - остаемся на текущем слайде
         
-        // Плавно переходим к выбранному слайду (зацикливание обработается в showSlide)
-        showSlide(targetSlide);
+        console.log(`Drag ended, target slide: ${targetSlide}`);
+        smoothTransitionToSlide(targetSlide);
     }
 
     // Анимация
@@ -307,32 +358,35 @@ function initCarousel(tabId = 'women-tab') {
         }
     }
 
-    // Обработчики для мыши
+    // Обработчики событий
     carousel.addEventListener('mousedown', startDrag);
     window.addEventListener('mousemove', drag);
     window.addEventListener('mouseup', endDrag);
 
-    // Обработчики для тач-устройств
     carousel.addEventListener('touchstart', startDrag, { passive: false });
     window.addEventListener('touchmove', drag, { passive: false });
     window.addEventListener('touchend', endDrag);
 
-    // Обработчики для стрелок
     prevArrow.addEventListener('click', prevSlide);
     nextArrow.addEventListener('click', nextSlide);
 
-    // Обработчики для индикаторов
     indicators.forEach((indicator, index) => {
         indicator.addEventListener('click', () => {
-            showSlide(index);
+            const virtualIndex = getVirtualSlideIndex(index);
+            console.log(`Indicator clicked: ${index} -> virtual: ${virtualIndex}`);
+            smoothTransitionToSlide(virtualIndex);
         });
     });
 
-    // Предотвращаем стандартное поведение браузера при перетаскивании изображений
     carousel.addEventListener('dragstart', (e) => e.preventDefault());
 
-    // Инициализация первого слайда
-    showSlide(0);
+    // Обработчик изменения размера окна
+    window.addEventListener('resize', initializePosition);
+
+    // Инициализация
+    setTimeout(() => {
+        initializePosition();
+    }, 100);
 }
 
 // Инициализируем все после загрузки DOM
