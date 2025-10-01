@@ -124,42 +124,14 @@
     <section id="rsvp" class="rsvp">
         <div class="container">
             <h2 class="section-title">Подтвердите участие</h2>
-            <div class="rsvp-content">
-                <p class="mb-2">Пожалуйста, подтвердите ваше участие</br>до <span class="highlight">25 октября 2025 года</span></p>
-                <form class="rsvp-form" id="rsvp-form" 
-                    action="https://docs.google.com/forms/d/e/1FAIpQLSfHwGl-DEKuRWtHDjH5o6uwiOXnaV34qLTQFyQTESkX4rGNnw/viewform?usp=header" 
-                    method="POST" target="hiddenFrame">
-                    
-                    <div class="form-group">
-                        <label for="name">Ваше имя *</label>
-                        <input type="text" id="name" name="entry.123456789" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Номер телефона *</label>
-                        <input type="tel" id="phone" name="entry.987654321" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="guests">Количество гостей (включая вас)</label>
-                        <select id="guests" name="entry.555555555" class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Пожелания или комментарии</label>
-                        <textarea id="message" name="entry.333333333" class="form-control" rows="4"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn">Подтвердить участие</button>
-                </form>
-
-                <!-- Скрытый iframe для отправки формы без перезагрузки страницы -->
-                <iframe name="hiddenFrame" style="display: none;"></iframe>
+            <div class="location-info">
+                <svg class="animated-heart" width="80" height="80" viewBox="0 0 24 24" fill="var(--primary-red)">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <p>Для подтверждения участия в мероприятия - пройдите по ссылке в телеграм и вступите в группу, для получения всей актуальной информации:</p>
+                <a href="https://t.me/your_chat_link" target="_blank" class="btn telegram-btn">
+                    Присоединиться к чату  <i class="fab fa-telegram"></i> 
+                </a>
             </div>
         </div>
     </section>
