@@ -166,10 +166,17 @@ function initTabs() {
     });
 }
 
-// Carousel functionality with true infinite loop - FIXED VERSION
+// Simple Carousel functionality without clones - FIXED VERSION
+let carouselInstances = {};
+
 function initCarousel(tabId = 'women-tab') {
     const currentTab = document.getElementById(tabId);
     if (!currentTab) return;
+    
+    // Очищаем предыдущие обработчики
+    if (carouselInstances[tabId]) {
+        carouselInstances[tabId].destroy();
+    }
     
     const carouselTrack = currentTab.querySelector('.carousel-track');
     const slides = currentTab.querySelectorAll('.carousel-slide');
@@ -180,153 +187,164 @@ function initCarousel(tabId = 'women-tab') {
     
     if (!carouselTrack || !slides.length) return;
     
-    // Правильный подсчет слайдов
-    const totalSlides = slides.length; // Всего слайдов (включая клоны)
-    const realSlidesCount = totalSlides - 2; // Реальные слайды (без клонов)
-    
-    console.log(`Total slides: ${totalSlides}, Real slides: ${realSlidesCount}`);
-    
-    let currentSlide = 1; // Начинаем с первого реального слайда
+    const totalSlides = slides.length;
+    let currentSlide = 0;
     let isDragging = false;
     let startPos = 0;
     let currentTranslate = 0;
     let prevTranslate = 0;
     let animationID = null;
-    let lastPos = 0;
-    let velocity = 0;
-    let lastTime = 0;
-    let slideWidth = 0;
 
-    // Функция для получения актуальной ширины слайда
+    const eventHandlers = {
+        mouseDown: null,
+        mouseMove: null,
+        mouseUp: null,
+        touchStart: null,
+        touchMove: null,
+        touchEnd: null,
+        prevClick: null,
+        nextClick: null,
+        indicatorClicks: [],
+        resize: null
+    };
+
     function getSlideWidth() {
-        return carousel.offsetWidth || carouselTrack.offsetWidth;
+        return carousel.offsetWidth;
     }
 
-    // Инициализация позиции
     function initializePosition() {
-        slideWidth = getSlideWidth();
+        const slideWidth = getSlideWidth();
         currentTranslate = -currentSlide * slideWidth;
         prevTranslate = currentTranslate;
         carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
-        
         updateIndicators();
+        updateArrows(); // ← ДОБАВЛЯЕМ ОБНОВЛЕНИЕ СТРЕЛОК ПРИ ИНИЦИАЛИЗАЦИИ
     }
 
-    // Обновление индикаторов
     function updateIndicators() {
-        const realIndex = getRealSlideIndex(currentSlide);
-        console.log(`Current slide: ${currentSlide}, Real index: ${realIndex}`);
-        
         indicators.forEach(indicator => indicator.classList.remove('active'));
-        if (indicators[realIndex]) {
-            indicators[realIndex].classList.add('active');
+        if (indicators[currentSlide]) {
+            indicators[currentSlide].classList.add('active');
         }
     }
 
-    // Получить реальный индекс слайда
-    function getRealSlideIndex(virtualIndex) {
-        if (virtualIndex === 0) return realSlidesCount - 1; // Клон последнего -> последний реальный
-        if (virtualIndex === totalSlides - 1) return 0; // Клон первого -> первый реальный
-        return virtualIndex - 1; // Реальные слайды
+    function updateArrows() {
+        const slideWidth = getSlideWidth();
+        
+        // Скрываем стрелку "назад" на первом слайде
+        if (prevArrow) {
+            if (currentSlide === 0) {
+                prevArrow.style.opacity = '0.3';
+                prevArrow.style.pointerEvents = 'none';
+            } else {
+                prevArrow.style.opacity = '1';
+                prevArrow.style.pointerEvents = 'auto';
+            }
+        }
+        
+        // Скрываем стрелку "вперед" на последнем слайде
+        if (nextArrow) {
+            if (currentSlide === totalSlides - 1) {
+                nextArrow.style.opacity = '0.3';
+                nextArrow.style.pointerEvents = 'none';
+            } else {
+                nextArrow.style.opacity = '1';
+                nextArrow.style.pointerEvents = 'auto';
+            }
+        }
     }
 
-    // Получить виртуальный индекс для реального слайда
-    function getVirtualSlideIndex(realIndex) {
-        return realIndex + 1; // Реальные слайды начинаются с индекса 1
-    }
-
-    // Плавный переход к слайду
-    function smoothTransitionToSlide(targetSlide) {
-        slideWidth = getSlideWidth();
-        currentTranslate = -targetSlide * slideWidth;
+    function goToSlide(slideIndex) {
+        const slideWidth = getSlideWidth();
+        
+        // Ограничиваем индекс слайда
+        currentSlide = Math.max(0, Math.min(slideIndex, totalSlides - 1));
         
         carouselTrack.style.transition = 'transform 0.3s ease';
-        carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
+        carouselTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
         
-        currentSlide = targetSlide;
+        // ОБНОВЛЯЕМ ПЕРЕМЕННЫЕ ПОЗИЦИИ
+        currentTranslate = -currentSlide * slideWidth;
         prevTranslate = currentTranslate;
         
         updateIndicators();
+        updateArrows(); // ← ДОБАВЛЯЕМ ОБНОВЛЕНИЕ СТРЕЛОК
         
         setTimeout(() => {
             carouselTrack.style.transition = '';
-            
-            // Бесшовный переход между клонами и реальными слайдами
-            if (currentSlide === 0) {
-                // Перешли на клон последнего слайда - прыгаем к реальному последнему
-                currentSlide = realSlidesCount;
-                currentTranslate = -currentSlide * slideWidth;
-                carouselTrack.style.transition = 'none';
-                carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
-                prevTranslate = currentTranslate;
-                updateIndicators();
-            } else if (currentSlide === totalSlides - 1) {
-                // Перешли на клон первого слайда - прыгаем к реальному первому
-                currentSlide = 1;
-                currentTranslate = -currentSlide * slideWidth;
-                carouselTrack.style.transition = 'none';
-                carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
-                prevTranslate = currentTranslate;
-                updateIndicators();
+        }, 300);
+    }
+
+    function nextSlide() {
+        // Сбрасываем стили стрелок перед анимацией
+        resetArrowStyles();
+        
+        if (currentSlide < totalSlides - 1) {
+            goToSlide(currentSlide + 1);
+        } else {
+            goToSlide(0);
+        }
+    }
+
+    function prevSlide() {
+        // Сбрасываем стили стрелок перед анимацией
+        resetArrowStyles();
+        
+        if (currentSlide > 0) {
+            goToSlide(currentSlide - 1);
+        } else {
+            goToSlide(totalSlides - 1);
+        }
+    }
+
+    // Новая функция для сброса стилей стрелок
+    function resetArrowStyles() {
+        // Принудительно сбрасываем hover-эффект через изменение стилей
+        if (prevArrow) {
+            prevArrow.style.background = 'rgba(0, 0, 0, 0.6)';
+            prevArrow.style.transform = 'translateY(-50%) scale(1)';
+        }
+        if (nextArrow) {
+            nextArrow.style.background = 'rgba(0, 0, 0, 0.6)';
+            nextArrow.style.transform = 'translateY(-50%) scale(1)';
+        }
+        
+        // Альтернативный вариант: добавляем небольшой таймаут для сброса
+        setTimeout(() => {
+            if (prevArrow) {
+                prevArrow.style.background = '';
+                prevArrow.style.transform = '';
+            }
+            if (nextArrow) {
+                nextArrow.style.background = '';
+                nextArrow.style.transform = '';
             }
         }, 300);
     }
 
-    // Следующий слайд
-    function nextSlide() {
-        const nextSlideIndex = currentSlide + 1;
-        console.log(`Next slide: ${nextSlideIndex}`);
-        smoothTransitionToSlide(nextSlideIndex);
-    }
-
-    // Предыдущий слайд
-    function prevSlide() {
-        const prevSlideIndex = currentSlide - 1;
-        console.log(`Prev slide: ${prevSlideIndex}`);
-        smoothTransitionToSlide(prevSlideIndex);
-    }
-
-    // Получить позицию X
     function getPositionX(event) {
         return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
     }
 
-    // Начало перетаскивания
     function startDrag(event) {
         if (event.type === 'touchstart') event.preventDefault();
         
         isDragging = true;
         startPos = getPositionX(event);
-        lastPos = startPos;
-        lastTime = Date.now();
-        velocity = 0;
         carousel.classList.add('grabbing');
         
-        slideWidth = getSlideWidth();
         carouselTrack.style.transition = 'none';
         animationID = requestAnimationFrame(animation);
     }
 
-    // Перетаскивание
     function drag(event) {
         if (!isDragging) return;
         
         const currentPosition = getPositionX(event);
-        const currentTime = Date.now();
-        const deltaTime = currentTime - lastTime;
-        
-        if (deltaTime > 0) {
-            const deltaX = currentPosition - lastPos;
-            velocity = deltaX / deltaTime;
-            lastPos = currentPosition;
-            lastTime = currentTime;
-        }
-        
         const dragDistance = currentPosition - startPos;
         currentTranslate = prevTranslate + dragDistance;
     }
 
-    // Конец перетаскивания
     function endDrag() {
         if (!isDragging) return;
         
@@ -334,23 +352,27 @@ function initCarousel(tabId = 'women-tab') {
         carousel.classList.remove('grabbing');
         cancelAnimationFrame(animationID);
         
-        const dragDistance = currentTranslate - prevTranslate;
         const slideWidth = getSlideWidth();
+        const dragDistance = currentTranslate - prevTranslate;
         
+        // ПРОСТАЯ И НАДЕЖНАЯ ЛОГИКА
         let targetSlide = currentSlide;
         
-        // Определяем направление свайпа
-        if (dragDistance < -50) { // Свайп влево
+        if (dragDistance < -50) {
+            // Свайп влево - следующий слайд
             targetSlide = currentSlide + 1;
-        } else if (dragDistance > 50) { // Свайп вправо
+        } else if (dragDistance > 50) {
+            // Свайп вправо - предыдущий слайд
             targetSlide = currentSlide - 1;
         }
         
-        console.log(`Drag ended, target slide: ${targetSlide}`);
-        smoothTransitionToSlide(targetSlide);
+        // Ограничиваем границы
+        targetSlide = Math.max(0, Math.min(targetSlide, totalSlides - 1));
+        
+        // ВСЕГДА переходим к слайду, даже если он не изменился (сбрасываем позицию)
+        goToSlide(targetSlide);
     }
 
-    // Анимация
     function animation() {
         carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
         if (isDragging) {
@@ -358,30 +380,69 @@ function initCarousel(tabId = 'women-tab') {
         }
     }
 
-    // Обработчики событий
-    carousel.addEventListener('mousedown', startDrag);
-    window.addEventListener('mousemove', drag);
-    window.addEventListener('mouseup', endDrag);
-
-    carousel.addEventListener('touchstart', startDrag, { passive: false });
-    window.addEventListener('touchmove', drag, { passive: false });
-    window.addEventListener('touchend', endDrag);
-
-    prevArrow.addEventListener('click', prevSlide);
-    nextArrow.addEventListener('click', nextSlide);
-
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            const virtualIndex = getVirtualSlideIndex(index);
-            console.log(`Indicator clicked: ${index} -> virtual: ${virtualIndex}`);
-            smoothTransitionToSlide(virtualIndex);
+    function destroy() {
+        // Удаляем все обработчики событий
+        Object.keys(eventHandlers).forEach(key => {
+            const handler = eventHandlers[key];
+            if (handler && typeof handler === 'function') {
+                if (key === 'mouseDown') carousel.removeEventListener('mousedown', handler);
+                if (key === 'mouseMove') window.removeEventListener('mousemove', handler);
+                if (key === 'mouseUp') window.removeEventListener('mouseup', handler);
+                if (key === 'touchStart') carousel.removeEventListener('touchstart', handler);
+                if (key === 'touchMove') window.removeEventListener('touchmove', handler);
+                if (key === 'touchEnd') window.removeEventListener('touchend', handler);
+                if (key === 'prevClick') prevArrow.removeEventListener('click', handler);
+                if (key === 'nextClick') nextArrow.removeEventListener('click', handler);
+                if (key === 'resize') window.removeEventListener('resize', handler);
+            }
         });
+        
+        // Удаляем обработчики индикаторов
+        eventHandlers.indicatorClicks.forEach((handler, index) => {
+            if (indicators[index]) {
+                indicators[index].removeEventListener('click', handler);
+            }
+        });
+        
+        if (animationID) {
+            cancelAnimationFrame(animationID);
+        }
+    }
+
+    // Сохраняем обработчики
+    eventHandlers.mouseDown = startDrag;
+    eventHandlers.mouseMove = drag;
+    eventHandlers.mouseUp = endDrag;
+    eventHandlers.touchStart = startDrag;
+    eventHandlers.touchMove = drag;
+    eventHandlers.touchEnd = endDrag;
+    eventHandlers.prevClick = prevSlide;
+    eventHandlers.nextClick = nextSlide;
+    eventHandlers.resize = initializePosition;
+
+    // Добавляем обработчики
+    carousel.addEventListener('mousedown', eventHandlers.mouseDown);
+    window.addEventListener('mousemove', eventHandlers.mouseMove);
+    window.addEventListener('mouseup', eventHandlers.mouseUp);
+
+    carousel.addEventListener('touchstart', eventHandlers.touchStart, { passive: false });
+    window.addEventListener('touchmove', eventHandlers.touchMove, { passive: false });
+    window.addEventListener('touchend', eventHandlers.touchEnd);
+
+    prevArrow.addEventListener('click', eventHandlers.prevClick);
+    nextArrow.addEventListener('click', eventHandlers.nextClick);
+
+    // Обработчики для индикаторов
+    indicators.forEach((indicator, index) => {
+        const handler = () => goToSlide(index);
+        eventHandlers.indicatorClicks[index] = handler;
+        indicator.addEventListener('click', handler);
     });
 
     carousel.addEventListener('dragstart', (e) => e.preventDefault());
+    window.addEventListener('resize', eventHandlers.resize);
 
-    // Обработчик изменения размера окна
-    window.addEventListener('resize', initializePosition);
+    carouselInstances[tabId] = { destroy };
 
     // Инициализация
     setTimeout(() => {
@@ -389,7 +450,7 @@ function initCarousel(tabId = 'women-tab') {
     }, 100);
 }
 
-// Инициализируем все после загрузки DOM
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
     initTabs();
     initCarousel('women-tab');
