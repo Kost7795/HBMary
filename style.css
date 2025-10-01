@@ -26,6 +26,18 @@ html {
     scroll-behavior: smooth;
 }
 
+.background-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('fon.jpeg') center/cover;
+    z-index: -1;
+}
+
 body {
     font-family: 'Cormorant Infant', serif;
     color: var(--white);
@@ -33,15 +45,7 @@ body {
     background-color: var(--black);
     overflow-x: hidden;
     position: relative;
-    background: 
-        /* Темный оверлей для лучшей читаемости текста */
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        /* Ваша картинка */
-        url('fon.webp');
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    z-index: 1;
 }
 
 .container {
@@ -599,10 +603,23 @@ section {
     }
 }
 
+/* Для мобильных - делаем фон статичным */
+@media (max-width: 768px) {
+    .background-fixed {
+        position: fixed;
+        height: 100%;
+    }
+}
+
 @media (max-width: 480px) {
     .hero h1 {
         font-size: 2rem;
         padding: 0 10px;
+    }
+
+    .background-fixed {
+        position: fixed;
+        height: 100%;
     }
 }
 
@@ -610,5 +627,10 @@ section {
     .hero h1 {
         font-size: 1.7rem;
         padding: 0 5px;
+    }
+
+    .background-fixed {
+        position: fixed;
+        height: 100%;
     }
 }
