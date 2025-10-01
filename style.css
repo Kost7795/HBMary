@@ -532,53 +532,53 @@ nav {
     margin-bottom: 2rem;
     border-bottom: 1px solid rgba(209, 0, 0, 0.3);
     padding-bottom: 10px;
-    gap: 20px; /* Расстояние между табами */
+    gap: 40px; /* Увеличим расстояние между табами */
 }
 
 .tab-button {
-    background: rgba(26, 26, 26, 0.7);
-    border: 1px solid rgba(209, 0, 0, 0.3);
+    background: transparent; /* Убираем фон */
+    border: none; /* Убираем рамку */
     color: var(--white);
-    padding: 15px 40px;
+    padding: 10px 0; /* Оставляем только вертикальные отступы */
     font-family: 'Cormorant Infant', serif;
-    font-size: 1.1rem;
+    font-size: 1.3rem; /* Увеличим текст */
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
     position: relative;
-    opacity: 0.7;
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
-    min-width: 150px;
+    opacity: 0.6;
+    border-radius: 0; /* Убираем скругления */
+    backdrop-filter: none; /* Убираем размытие */
+    min-width: auto; /* Убираем фиксированную ширину */
     text-align: center;
 }
 
 .tab-button:hover {
-    opacity: 1;
-    background: rgba(209, 0, 0, 0.2);
+    opacity: 0.9;
+    background: transparent; /* Убираем фон при наведении */
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(209, 0, 0, 0.3);
+    box-shadow: none; /* Убираем тень */
 }
 
 .tab-button.active {
     opacity: 1;
-    color: var(--white);
-    background: rgba(209, 0, 0, 0.8);
-    border-color: var(--primary-red);
+    color: var(--primary-red);
+    background: transparent; /* Убираем фон */
+    border-color: transparent; /* Убираем рамку */
     transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(209, 0, 0, 0.4);
+    box-shadow: none; /* Убираем тень */
 }
 
 .tab-button.active::after {
     content: '';
     position: absolute;
-    bottom: -11px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 2px;
+    bottom: 0px;
+    left: 0;
+    width: 100%;  /* ← Или измените width на auto */
+    height: 1px;
     background: var(--primary-red);
     border-radius: 2px;
+    transform: none;  /* ← Уберите transform */
 }
 
 .tabs-content {
@@ -610,37 +610,53 @@ nav {
     animation: tabFadeIn 0.4s ease;
 }
 
+/* Стили для иконок */
+.tab-button i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
 /* Адаптивность для табов */
 @media (max-width: 768px) {
     .tabs-header {
         flex-direction: row; /* Оставляем в строке */
-        flex-wrap: wrap; /* Перенос на маленьких экранах */
-        gap: 15px;
+        gap: 30px; /* Уменьшаем расстояние на мобильных */
     }
     
     .tab-button {
-        padding: 12px 25px;
-        min-width: 120px;
+        padding: 8px 0;
+        font-size: 1.1rem;
+        margin-right: 6px;
         font-size: 1rem;
+    }
+
+    .tab-button.active::after {
+        bottom: 0px;
+        /* width: auto; */
     }
 }
 
 @media (max-width: 480px) {
     .tabs-header {
-        gap: 10px;
+        gap: 20px;
     }
     
     .tab-button {
-        padding: 10px 20px;
-        min-width: 110px;
+        font-size: 1rem;
+        padding: 6px 0;
+    }
+    
+    .tab-button i {
+        margin-right: 5px;
         font-size: 0.9rem;
     }
     
     .tab-button.active::after {
-        bottom: -8px;
-        width: 50%;
+        bottom: 0px;
+        /* width: auto; */
     }
 }
+
 /*////////////////////////////////////////////////////////////////////
 /* Carousel Styles */
 .carousel-container {
