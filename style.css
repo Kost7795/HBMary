@@ -386,13 +386,16 @@ nav {
     height: 100%;
     transition: transform 0.3s ease;
     will-change: transform;
+    width: 100%;
 }
 
 .carousel-slide {
     min-width: 100%;
+    width: 100%; /* Явно задаем ширину */
     height: 100%;
     position: relative;
     flex-shrink: 0;
+    flex-basis: 100%; /* Добавляем для надежности */
 }
 
 .carousel-slide img {
@@ -662,15 +665,12 @@ nav {
 /*////////////////////////////////////////////////////////////////////
 /* Carousel Styles */
 .carousel-container {
-    position: relative;
-    max-width: 100%;
-    margin: 2rem auto;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(209, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    touch-action: pan-y; /* Разрешаем вертикальную прокрутку */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
 }
 
 .carousel {
@@ -786,6 +786,17 @@ nav {
 
 .indicator:hover {
     background: var(--primary-red);
+}
+
+@media (max-width: 768px) {
+    .carousel-track {
+        -webkit-overflow-scrolling: touch; /* Для плавного скролла на iOS */
+    }
+    
+    .carousel-slide {
+        -webkit-transform: translateZ(0); /* Hardware acceleration */
+        transform: translateZ(0);
+    }
 }
 
 /* Mobile optimizations */
