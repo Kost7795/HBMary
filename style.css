@@ -320,19 +320,23 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 40px;
     margin: 2rem 0;
+    flex-wrap: wrap;
 }
 
 .color-wrapper {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
 }
 
 .color-item {
-    width: 120px;
-    height: 120px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -340,20 +344,16 @@ nav {
     backdrop-filter: blur(10px);
     border: 2px solid rgba(209, 0, 0, 0.3);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    margin: 0 auto;
+    flex-shrink: 0;
 }
 
 .color-name {
-    margin-top: 15px;
     font-weight: 600;
-    text-align: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    white-space: nowrap;
 }
 
 .color-1 { background-color: rgba(0, 0, 0, 0.95); }
-.color-2 { background-color: rgba(209, 0, 0, 0.95); }
-.color-3 { background-color: rgba(139, 0, 0, 0.95); }
-.color-4 { background-color: rgba(68, 68, 68, 0.95); }
 
 /*////////////////////////////////////////////////////////////////////
 /* Carousel Styles */
@@ -535,8 +535,6 @@ nav {
     display: flex;
     justify-content: center;
     margin-bottom: 2rem;
-    border-bottom: 1px solid rgba(209, 0, 0, 0.3);
-    padding-bottom: 10px;
     gap: 40px; /* Увеличим расстояние между табами */
 }
 
@@ -749,12 +747,42 @@ nav {
     transform: translateY(-50%) scale(1.1);
 }
 
+/* Добавляем стиль для активного состояния (при клике) */
+.carousel-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+    transition: transform 0.1s ease;
+}
+
 .carousel-arrow-prev {
     left: 15px;
 }
 
 .carousel-arrow-next {
     right: 15px;
+}
+
+.carousel-arrow:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* Убираем ховер-эффект для неактивных стрелок */
+.carousel-arrow.disabled:hover {
+    background: rgba(0, 0, 0, 0.6);
+    transform: translateY(-50%) scale(0.9);
+}
+
+.carousel-arrow.hidden {
+    display: none;
+}
+
+/* Или если хотите плавное исчезновение */
+.carousel-arrow.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    transform: translateY(-50%) scale(0.9);
+    cursor: not-allowed;
 }
 
 /* Carousel Indicators */
