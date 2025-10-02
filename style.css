@@ -318,30 +318,33 @@ nav {
 
 .color-palette {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Распределяем пространство между текстом и кружками */
     align-items: center;
-    gap: 40px;
-    margin: 2rem 0;
-    flex-wrap: wrap;
+    margin: 1rem 0;
+    padding: 0 10px;
+    width: 100%;
 }
 
 .color-wrapper {
     display: flex;
     align-items: center;
     gap: 15px;
+    justify-content: flex-end; /* Прижимаем кружки к правому краю */
+    flex-shrink: 0; /* Запрещаем сжатие */
+}
+
+.color-palette p {
+    margin: 0;
+    font-size: 1.1rem;
     text-align: left;
+    flex: 1; /* Занимает доступное пространство */
+    padding-right: 20px; /* Отступ между текстом и кружками */
 }
 
 .color-item {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
     border: 2px solid rgba(209, 0, 0, 0.3);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
@@ -354,6 +357,9 @@ nav {
 }
 
 .color-1 { background-color: rgba(0, 0, 0, 0.95); }
+.color-2 { background-color: rgba(121, 0, 0, 0.95); }
+
+
 
 /*////////////////////////////////////////////////////////////////////
 /* Carousel Styles */
@@ -534,7 +540,7 @@ nav {
 .tabs-header {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: -1rem;
     gap: 40px; /* Увеличим расстояние между табами */
 }
 
