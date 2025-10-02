@@ -296,7 +296,7 @@ nav {
 
 .invitation-text {
     font-size: 1.1rem;
-    margin-bottom: 2rem;
+    margin-bottom: -1rem;
     line-height: 1.8;
     opacity: 0.9;
 }
@@ -304,6 +304,122 @@ nav {
 .highlight {
     color: var(--primary-red);
     font-weight: 600;
+}
+
+/* Timing Section Styles */
+.timing-section {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.timing-title {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--white);
+    font-weight: 500;
+}
+
+.timing-table {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.timing-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    position: relative;
+}
+
+.timing-time {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-red);
+    min-width: 60px;
+    text-align: right;
+}
+
+.timing-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary-red);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.timing-event {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    text-align: left;
+    flex: 1;
+}
+
+/* Декоративная линия между пунктами */
+.timing-row:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 74px; /* Выравнивание по точкам */
+    width: 1px;
+    height: 16px;
+    background: rgba(209, 0, 0, 0.3);
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .timing-table {
+        max-width: 300px;
+        gap: 0.8rem;
+    }
+    
+    .timing-row {
+        gap: 12px;
+        padding: 10px 0;
+    }
+    
+    .timing-time {
+        font-size: 1rem;
+        min-width: 55px;
+    }
+    
+    .timing-event {
+        font-size: 1rem;
+    }
+    
+    .timing-row:not(:last-child)::after {
+        left: 67px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timing-table {
+        max-width: 280px;
+    }
+    
+    .timing-row {
+        gap: 10px;
+    }
+    
+    .timing-time {
+        min-width: 50px;
+        font-size: 0.95rem;
+    }
+    
+    .timing-event {
+        font-size: 0.95rem;
+    }
+    
+    .timing-row:not(:last-child)::after {
+        left: 60px;
+    }
 }
 
 /*////////////////////////////////////////////////////////////////////
