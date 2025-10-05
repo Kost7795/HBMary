@@ -458,17 +458,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initial check
 handleScroll();
-
-// Фикс для iOS адресной строки
-function fixIOSViewport() {
-    if (!/iPad|iPhone|iPod/.test(navigator.userAgent)) return;
-    
-    const setVH = () => {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-    };
-    
-    setVH();
-    window.addEventListener('resize', setVH);
-    window.addEventListener('orientationchange', setVH);
-}
