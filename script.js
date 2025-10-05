@@ -1,3 +1,89 @@
+// Redirect from Telegram WebView to browser
+if (navigator.userAgent.includes('Telegram')) {
+    // Получаем текущий URL
+    const currentUrl = window.location.href;
+    
+    // Создаем страницу-посредник с инструкциями
+    const redirectPage = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Открыть в браузере</title>
+            <meta charset="UTF-8">
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    text-align: center; 
+                    padding: 50px 20px;
+                    background: #000;
+                    color: white;
+                }
+                .container {
+                    max-width: 500px;
+                    margin: 0 auto;
+                }
+                .btn {
+                    display: inline-block;
+                    background: #0088cc;
+                    color: white;
+                    padding: 15px 30px;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    margin: 10px;
+                    font-size: 16px;
+                }
+                .btn:hover {
+                    background: #0077b3;
+                }
+                .instructions {
+                    text-align: left;
+                    margin: 30px 0;
+                    padding: 20px;
+                    background: rgba(255,255,255,0.1);
+                    border-radius: 8px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>📱 Открыть в браузере</h1>
+                <p>Для лучшего отображения приглашения откройте сайт в браузере</p>
+                
+                <div class="instructions">
+                    <h3>Инструкция:</h3>
+                    <ol>
+                        <li>Нажмите кнопку "Открыть в браузере" ниже</li>
+                        <li>Или нажмите на три точки в правом верхнем углу</li>
+                        <li>Выберите "Open in Browser"</li>
+                    </ol>
+                </div>
+                
+                <a href="${currentUrl}" class="btn" target="_blank" id="browserLink">
+                    Открыть в браузере
+                </a>
+                
+                <script>
+                    // Пытаемся автоматически открыть в браузере
+                    setTimeout(function() {
+                        const link = document.getElementById('browserLink');
+                        link.click();
+                    }, 1000);
+                    
+                    // Альтернативный метод
+                    document.addEventListener('click', function() {
+                        window.open('${currentUrl}', '_blank');
+                    });
+                </script>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    // Заменяем содержимое страницы
+    document.write(redirectPage);
+    document.close();
+}
+
 // Mobile Menu Toggle
 document.getElementById('mobile-menu').addEventListener('click', function() {
     document.querySelector('.nav-links').classList.toggle('active');
