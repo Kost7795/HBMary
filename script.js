@@ -472,6 +472,10 @@ function initCarousel(tabId = 'women-tab') {
 }
 
 // Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    initTabs();
+    initCarousel('women-tab');
+});
 
 // Initial check
 handleScroll();
@@ -552,57 +556,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-// Special Telegram fix with MutationObserver
-function setupTelegramBackgroundFix() {
-    const bg = document.querySelector('.background-fixed');
-    
-    // Фиксируем начальный размер
-    const initialWidth = window.innerWidth;
-    const initialHeight = window.innerHeight;
-    
-    bg.style.width = initialWidth + 'px';
-    bg.style.height = initialHeight + 'px';
-    
-    // Наблюдаем за изменениями в DOM и стилях
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                // Восстанавливаем наши фиксированные размеры
-                setTimeout(() => {
-                    bg.style.width = initialWidth + 'px';
-                    bg.style.height = initialHeight + 'px';
-                }, 10);
-            }
-        });
-    });
-    
-    // Начинаем наблюдение
-    observer.observe(bg, {
-        attributes: true,
-        attributeFilter: ['style']
-    });
-    
-    // Также блокируем через ResizeObserver
-    const resizeObserver = new ResizeObserver(entries => {
-        for (let entry of entries) {
-            if (entry.target === bg) {
-                bg.style.width = initialWidth + 'px';
-                bg.style.height = initialHeight + 'px';
-            }
-        }
-    });
-    
-    resizeObserver.observe(bg);
-    
-    return observer;
-}
-
-// Инициализация для Telegram
-if (navigator.userAgent.includes('Telegram')) {
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
-            setupTelegramBackgroundFix();
-        }, 1000);
-    });
-}
