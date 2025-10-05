@@ -1,24 +1,3 @@
-// Auto-redirect to browser
-if (navigator.userAgent.includes('Telegram')) {
-    // Сразу пытаемся открыть в браузере
-    const currentUrl = window.location.href;
-    
-    // Создаем скрытую ссылку и кликаем по ней
-    const link = document.createElement('a');
-    link.href = currentUrl;
-    link.target = '_blank';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    
-    // Пытаемся открыть
-    setTimeout(() => {
-        link.click();
-        
-        // Показываем сообщение
-        alert('Приглашение открывается в браузере для лучшего отображения');
-    }, 500);
-}
-
 // Mobile Menu Toggle
 document.getElementById('mobile-menu').addEventListener('click', function() {
     document.querySelector('.nav-links').classList.toggle('active');
