@@ -1,88 +1,22 @@
-// Enhanced Telegram handler with choice
+// Auto-redirect to browser
 if (navigator.userAgent.includes('Telegram')) {
-    document.addEventListener('DOMContentLoaded', function() {
-        // Создаем красивый overlay в стиле вашего сайта
-        const overlay = document.createElement('div');
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-family: 'Cormorant Infant', serif;
-        `;
+    // Сразу пытаемся открыть в браузере
+    const currentUrl = window.location.href;
+    
+    // Создаем скрытую ссылку и кликаем по ней
+    const link = document.createElement('a');
+    link.href = currentUrl;
+    link.target = '_blank';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    
+    // Пытаемся открыть
+    setTimeout(() => {
+        link.click();
         
-        overlay.innerHTML = `
-            <div style="max-width: 400px; background: rgba(26,26,26,0.9); padding: 40px 30px; border-radius: 15px; border: 1px solid #D10000;">
-                <h2 style="color: #D10000; margin-bottom: 20px; font-size: 1.8rem; font-weight: 600;">Приглашение на 30-летие</h2>
-                
-                <p style="margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6;">
-                    Для полного функционала и красивого отображения рекомендуем открыть в браузере
-                </p>
-                
-                <div style="display: flex; flex-direction: column; gap: 15px; margin: 30px 0;">
-                    <a href="${window.location.href}" 
-                       target="_blank" 
-                       class="telegram-redirect-btn"
-                       style="
-                        display: block;
-                        background: #D10000;
-                        color: white;
-                        padding: 15px;
-                        text-decoration: none;
-                        border-radius: 8px;
-                        font-size: 1.1rem;
-                        border: 2px solid #D10000;
-                        transition: all 0.3s ease;
-                    ">
-                        📱 Открыть в браузере
-                    </a>
-                    
-                    <button onclick="this.parentElement.parentElement.parentElement.remove()" 
-                            style="
-                        background: transparent;
-                        color: white;
-                        padding: 15px;
-                        border: 2px solid #666;
-                        border-radius: 8px;
-                        font-size: 1.1rem;
-                        font-family: 'Cormorant Infant', serif;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                    " 
-                            onmouseover="this.style.borderColor='#D10000'" 
-                            onmouseout="this.style.borderColor='#666'">
-                        ▶️ Продолжить здесь
-                    </button>
-                </div>
-                
-                <div style="margin-top: 25px; padding: 15px; background: rgba(209,0,0,0.1); border-radius: 8px; text-align: left;">
-                    <p style="margin: 0; font-size: 0.9rem; color: #D10000;">
-                        💡 Совет: Нажмите "Открыть в браузере" для лучшего опыта
-                    </p>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(overlay);
-        
-        // Автоматически фокусируемся на кнопке
-        setTimeout(() => {
-            const link = overlay.querySelector('.telegram-redirect-btn');
-            if (link) {
-                link.focus();
-            }
-        }, 100);
-    });
+        // Показываем сообщение
+        alert('Приглашение открывается в браузере для лучшего отображения');
+    }, 500);
 }
 
 // Mobile Menu Toggle
@@ -538,10 +472,6 @@ function initCarousel(tabId = 'women-tab') {
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    initTabs();
-    initCarousel('women-tab');
-});
 
 // Initial check
 handleScroll();
