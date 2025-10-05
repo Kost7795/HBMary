@@ -459,17 +459,79 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initial check
 handleScroll();
 
-// Minimal fix
+// Enhanced fix for both browser and Telegram
 document.addEventListener('DOMContentLoaded', function() {
     const bg = document.querySelector('.background-fixed');
-    const setSize = () => {
-        bg.style.width = window.innerWidth + 'px';
-        bg.style.height = window.innerHeight + 'px';
-    };
     
-    setSize();
+    function lockBackgroundSize() {
+        // Используем максимальные возможные размеры
+        const width = Math.max(window.innerWidth, document.documentElement.clientWidth);
+        const height = Math.max(window.innerHeight, document.documentElement.clientHeight);
+        
+        console.log('Locking background to:', width, 'x', height);
+        
+        // Фиксируем размеры в пикселях
+        bg.style.width = width + 'px';
+        bg.style.height = height + 'px';
+        bg.style.position = 'fixed';
+        bg.style.top = '0';
+        bg.style.left = '0';
+        bg.style.backgroundAttachment = 'fixed';
+        
+        // Добавляем атрибут чтобы отслеживать
+        bg.setAttribute('data-size-locked', 'true');
+    }
     
-    // Блокируем дальнейшие изменения
-    const observer = new ResizeObserver(() => {});
-    observer.observe(bg);
+    // Фиксируем размер сразу
+    lockBackgroundSize();
+    
+    // Дополнительная фиксация после полной загрузки
+    window.addEventListener('load', lockBackgroundSize);
+    
+    // Фиксируем при изменении ориентации
+    window.addEventListener('orientationchange', function() {
+        setTimeout(lockBackgroundSize, 350);
+    });
+    
+    // Блокируем любые изменения размера
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // В Telegram игнорируем resize события после первоначальной установки
+            if (!bg.hasAttribute('data-telegram-resize-handled')) {
+                lockBackgroundSize();
+                bg.setAttribute('data-telegram-resize-handled', 'true');
+            }
+        }, 50);
+    });
+    
+    // Специфичный фикс для Telegram WebView
+    if (navigator.userAgent.includes('Telegram')) {
+        console.log('Telegram WebView detected');
+        
+        // Дополнительная фиксация для Telegram
+        setTimeout(() => {
+            lockBackgroundSize();
+            // Принудительно переустанавливаем фон
+            bg.style.backgroundSize = 'cover';
+            bg.style.backgroundPosition = 'center';
+            bg.style.backgroundRepeat = 'no-repeat';
+        }, 500);
+        
+        // Обработка скролла в Telegram
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                // Восстанавливаем размер если что-то изменилось
+                const currentWidth = parseInt(bg.style.width);
+                const currentHeight = parseInt(bg.style.height);
+                
+                if (currentWidth !== window.innerWidth || currentHeight !== window.innerHeight) {
+                    lockBackgroundSize();
+                }
+            }, 100);
+        });
+    }
 });
