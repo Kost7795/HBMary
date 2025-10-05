@@ -1,22 +1,91 @@
-// Auto-redirect to browser
+// Proper Telegram redirect with user interaction
 if (navigator.userAgent.includes('Telegram')) {
-    // Сразу пытаемся открыть в браузере
-    const currentUrl = window.location.href;
-    
-    // Создаем скрытую ссылку и кликаем по ней
-    const link = document.createElement('a');
-    link.href = currentUrl;
-    link.target = '_blank';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    
-    // Пытаемся открыть
-    setTimeout(() => {
-        link.click();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Создаем overlay с инструкциями
+        const overlay = document.createElement('div');
+        overlay.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.95);
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                text-align: center;
+                padding: 20px;
+                font-family: 'Cormorant Infant', serif;
+            ">
+                <div style="max-width: 400px;">
+                    <h2 style="color: #D10000; margin-bottom: 20px; font-size: 1.8rem;">🎉 Приглашение на 30-летие</h2>
+                    <p style="margin-bottom: 30px; font-size: 1.1rem; line-height: 1.5;">
+                        Для лучшего отображения приглашения откройте сайт в браузере
+                    </p>
+                    
+                    <div style="margin: 30px 0;">
+                        <a href="${window.location.href}" 
+                           target="_blank" 
+                           style="
+                            display: inline-block;
+                            background: #D10000;
+                            color: white;
+                            padding: 15px 30px;
+                            text-decoration: none;
+                            border-radius: 8px;
+                            font-size: 1.1rem;
+                            margin: 10px;
+                            border: 2px solid #D10000;
+                            transition: all 0.3s ease;
+                        " 
+                           onmouseover="this.style.background='#8B0000'; this.style.borderColor='#8B0000'" 
+                           onmouseout="this.style.background='#D10000'; this.style.borderColor='#D10000'">
+                            📱 Открыть в браузере
+                        </a>
+                    </div>
+                    
+                    <div style="
+                        background: rgba(209, 0, 0, 0.1);
+                        padding: 20px;
+                        border-radius: 8px;
+                        margin-top: 20px;
+                        text-align: left;
+                    ">
+                        <h4 style="color: #D10000; margin-bottom: 10px;">Как открыть:</h4>
+                        <ol style="padding-left: 20px; margin: 0;">
+                            <li>Нажмите кнопку выше</li>
+                            <li>Или нажмите на три точки ⋮ в правом верхнем углу</li>
+                            <li>Выберите "Open in Browser"</li>
+                        </ol>
+                    </div>
+                    
+                    <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">
+                        После открытия в браузере закройте эту вкладку
+                    </p>
+                </div>
+            </div>
+        `;
         
-        // Показываем сообщение
-        alert('Приглашение открывается в браузере для лучшего отображения');
-    }, 500);
+        document.body.appendChild(overlay);
+        
+        // Пытаемся автоматически открыть при загрузке
+        setTimeout(() => {
+            const link = overlay.querySelector('a');
+            if (link) {
+                // Создаем событие клика
+                const clickEvent = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true
+                });
+                link.dispatchEvent(clickEvent);
+            }
+        }, 1500);
+    });
 }
 
 // Mobile Menu Toggle
