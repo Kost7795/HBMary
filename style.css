@@ -16,6 +16,21 @@
     --light-gray: #F5F5F5;
     --white: #FFFFFF;
     --transition: all 0.3s ease;
+    --vh: 1vh;
+}
+
+@media (max-width: 768px) {
+    .background-fixed {
+        height: calc(var(--vh, 1vh) * 100);
+    }
+    
+    .hero {
+        height: calc(var(--vh, 1vh) * 100);
+    }
+    
+    section {
+        min-height: calc(var(--vh, 1vh) * 100);
+    }
 }
 
 * {
