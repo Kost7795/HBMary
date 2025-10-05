@@ -16,21 +16,6 @@
     --light-gray: #F5F5F5;
     --white: #FFFFFF;
     --transition: all 0.3s ease;
-    --vh: 1vh;
-}
-
-@media (max-width: 768px) {
-    .background-fixed {
-        height: calc(var(--vh, 1vh) * 100);
-    }
-    
-    .hero {
-        height: calc(var(--vh, 1vh) * 100);
-    }
-    
-    section {
-        min-height: calc(var(--vh, 1vh) * 100);
-    }
 }
 
 * {
@@ -47,19 +32,22 @@ html {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    height: 100vh; /* Используем vh для лучшей поддержки */
-    height: -webkit-fill-available; /* Для iOS */
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    height: -webkit-fill-available;
     background: 
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url('fon.jpeg') center/cover;
+        url('fon.jpeg') center/cover fixed; /* fixed для фона */
     z-index: -1;
-    /* Предотвращаем изменение размера при скролле */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
+    /* Хак для стабильности на iOS */
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    perspective: 1000;
+    -webkit-perspective: 1000;
 }
 
 body {
@@ -1263,36 +1251,5 @@ section {
     .background-fixed {
         position: fixed;
         height: 100%;
-    }
-}
-
-/* Фикс для iOS адресной строки */
-@supports (-webkit-touch-callout: none) {
-    .background-fixed {
-        height: 100vh;
-        height: -webkit-fill-available;
-    }
-    
-    body {
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-    
-    html {
-        height: 100vh;
-        height: -webkit-fill-available;
-    }
-}
-
-/* Предотвращаем изменение размера при скролле на iOS */
-@media (max-width: 768px) {
-    section {
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
-    
-    .hero {
-        height: 100vh;
-        height: -webkit-fill-available;
     }
 }
