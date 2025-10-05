@@ -458,3 +458,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initial check
 handleScroll();
+
+// Фиксируем размер фона один раз при загрузке
+function lockBackgroundSize() {
+    const background = document.querySelector('.background-fixed');
+    const vh = window.innerHeight * 0.01;
+    
+    // Фиксируем текущие размеры
+    background.style.width = window.innerWidth + 'px';
+    background.style.height = window.innerHeight + 'px';
+    background.style.position = 'fixed';
+    background.style.top = '0';
+    background.style.left = '0';
+    
+    console.log('Background locked at:', window.innerWidth, 'x', window.innerHeight);
+}
+
+// Запускаем при загрузке и когда DOM готов
+document.addEventListener('DOMContentLoaded', function() {
+    // Ждем немного чтобы все загрузилось
+    setTimeout(lockBackgroundSize, 100);
+});
+
+// Также фиксируем при полной загрузке страницы
+window.addEventListener('load', lockBackgroundSize);
+
+// И при изменении ориентации перефиксируем
+window.addEventListener('orientationchange', function() {
+    setTimeout(lockBackgroundSize, 300);
+});
